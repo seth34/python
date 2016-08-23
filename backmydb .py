@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+ï»¿#!/usr/bin/env python
 # -*- coding:utf-8 -*- 
 import sys,os,time
 
@@ -10,7 +10,7 @@ backup_path = '/var/lib/pgsql/DB_dump'
 cmd_path = '/usr/pgsql-9.4/bin/'
 log_path = backup_path + '_log'
 
-# ´´½¨ÈÕÖ¾º¯Êı
+# åˆ›å»ºæ—¥å¿—å‡½æ•°
 def writeLogs(filename,contents):
   f = file(filename,'aw')
   f.write(contents)
@@ -19,25 +19,25 @@ def writeLogs(filename,contents):
 today = backup_path + time.strftime('%Y-%m-%d')
 fname = today + os.sep + time.strftime('%Y-%m-%d') + '_' + db_name + '.backup'
 
-# ´´½¨±¸·İÄ¿Â¼
+# åˆ›å»ºå¤‡ä»½ç›®å½•
 if not os.path.exists(today):
    Msg = '-'*30 + time.strftime('%Y-%m-%d,%H:%M:%S') + '-'*30 + '\n'
    if(os.mkdir(today)) == None:
-       Msg += '** ³É¹¦´´½¨±¸·İÄ¿Â¼£º ' + today + '\n\n'
+       Msg += '** æˆåŠŸåˆ›å»ºå¤‡ä»½ç›®å½•ï¼š ' + today + '\n\n'
        writeLogs(log_path,Msg)
    else:
-       Msg += '!! ´´½¨±¸·İÄ¿Â¼£º ' + today + 'Ê§°Ü£¬Çë¼ì²éÄ¿Â¼ÊÇ·ñ¿ÉĞ´£¡\n\n'
+       Msg += '!! åˆ›å»ºå¤‡ä»½ç›®å½•ï¼š ' + today + 'å¤±è´¥ï¼Œè¯·æ£€æŸ¥ç›®å½•æ˜¯å¦å¯å†™ï¼\n\n'
        writeLogs(log_path,Msg)
        sys.exit()
 
-# ±¸·İ CCIC2Êı¾İ¿â
+# å¤‡ä»½ CCIC2æ•°æ®åº“
 cmd_dump = "pg_dump -f %s %s" % \
                (fname,db_name)
 
 writeLogs(log_path,cmd_dump + '\n')
 
-# Ö´ĞĞ±¸·İÃüÁî
+# æ‰§è¡Œå¤‡ä»½å‘½ä»¤
 if os.system(cmd_dump) == 0:
-   writeLogs(log_path,'Êı¾İ±¸·İÎª£º ' + fname + '\n')
+   writeLogs(log_path,'æ•°æ®å¤‡ä»½ä¸ºï¼š ' + fname + '\n')
 else:
-   writeLogs(log_path,'Êı¾İ±¸·İÊ§°Ü£¡\n')
+   writeLogs(log_path,'æ•°æ®å¤‡ä»½å¤±è´¥ï¼\n')
